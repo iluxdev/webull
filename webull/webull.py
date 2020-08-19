@@ -265,14 +265,13 @@ class webull:
         if stock and isinstance(stock, str):
             response = requests.get(self._urls.stock_id(stock))
             result = response.json()
-            if result.get('data'):
-                for item in result['data']: # implies multiple tickers, but only assigns last one?
-                    ticker_id = item['tickerId']
-            else:
-                raise ValueError('TickerId could not be found for stock {}'.format(stock))
         else:
             raise ValueError('Stock symbol is required')
-        return ticker_id
+        try:
+            ticker_id = r.get("list")[0].get("tickerId")
+            return ticker_id
+        except Exception as e:
+            return e
 
 
     def place_order(self, stock=None, tId=None, price=0, action='BUY',
