@@ -268,7 +268,7 @@ class webull:
         else:
             raise ValueError('Stock symbol is required')
         try:
-            ticker_id = r.get("list")[0].get("tickerId")
+            ticker_id = (r.get("data") or r.get("list"))[0].get("tickerId")
             return ticker_id
         except Exception as e:
             return e
